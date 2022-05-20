@@ -14,8 +14,20 @@
     margin: 30px 30px;
 }
 
+#quiz-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
 
-#game-content {
-    margin: 100px;
+#question, #answers{
     text-align: center;
+}
+
+#question {
+    margin: 50px 20% 0;
+}
+
+#answers{
+    margin: 0 20% 50px;
 }
