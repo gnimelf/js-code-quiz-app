@@ -1,10 +1,12 @@
 // Setup Selectors
-var questionText = document.querySelector('#question')
-var choiceText = document.querySelector('#choices')
-var timer = document.querySelector("#time");
+var questionEl = document.querySelector('#question')
+var choiceEl = document.querySelector('#choices')
+var startEl = document.querySelector('#start')
+var timerEl = document.querySelector("#time");
 var questionNumber = 0;
 var timer = 60;
-var gameStarted = false;
+var score = 0;
+var gameStarted = true;
 var quizContent = {
     "results": [
         {
@@ -110,28 +112,61 @@ var quizContent = {
 }
 
 // Game Setup
-var question = quizContent.results[questionNumber].question;
-var choices = quizContent.results[questionNumber].answers;
-questionText.innerHTML = question;
-choiceText.innerHTML = `<ul><li>${choices[0]}</li><li>${choices[1]}</li><li>${choices[2]}</li><li>${choices[3]}</li></ul>`
-console.log(questionNumber);
+    questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
+    choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
+    console.log(questionNumber);
+    
+    // Event Listeners
+    startEl.addEventListener("click", startGame);
+    choiceEl.addEventListener("click", checkAnswer);
 
-choiceText.addEventListener("click", quizGame);
-
-function quizGame(event) {
-   
-    // Store user choice
-
-    questionNumber++;
-    // Get next question and choices 
-    if (questionNumber < quizContent.results.length) {
-
-        question = quizContent.results[questionNumber].question;
-        answers = quizContent.results[questionNumber].answers;
-        questionText.innerHTML = question;
-        choiceText.innerHTML = `<ul><li>${answers[0]}</li><li>${answers[1]}</li><li>${answers[2]}</li><li>${answers[3]}</li></ul>`
+    // Check user choice
+    function checkAnswer(event) {
         console.log(event);
+        var correctAnswer = quizContent.results[questionNumber].correct_answer;        
+        var userChoice = event.target.innerHTML;
+        console.log(userChoice);
+        if(correctAnswer === userChoice) {
+            score++;
+        }
         questionNumber++;
+
+        getNextQuestion();
     }
 
-}
+    function getNextQuestion(){
+     
+        // Get question and choices 
+        if (questionNumber < quizContent.results.length) {
+            var question = quizContent.results[questionNumber].question;
+            question = quizContent.results[questionNumber].question;
+            answersList = quizContent.results[questionNumber].answers;
+            questionEl.innerHTML = question;
+            choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
+        } else {
+            timer = 0;
+            alert("Game Over");
+        }
+    }
+
+    function startGame() {
+        // Change display
+        startEl.setAttribute('style',"Display: None")
+
+        var timerInterval = setInterval(function() {
+            timer--;
+            timerEl.textContent = "Time: " + timer;
+        
+            if(timer === 0) {
+              // Stops execution of action at set interval
+              clearInterval(timerInterval);
+              // Calls function to enter score
+            //   sendMessage();
+                alert("Time is up!")
+            }
+          }, 1000)
+
+        getNextQuestion();
+    }
+
+

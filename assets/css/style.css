@@ -3,6 +3,11 @@
     --fontFamily: Arial, Helvetica, sans-serif;
 }
 
+p{
+    font-family: var(--fontFamily);
+    font-size: 20px;
+}
+
 ul {
     padding: 0;
     margin: 0 30%;
@@ -15,6 +20,10 @@ li {
     border-radius: 25px;
     background-color: coral; 
     padding: 5px 0;
+}
+
+li:hover{
+    cursor:pointer;
 }
 
 #header {
@@ -31,17 +40,41 @@ li {
 #quiz-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
+    /* border: 3px solid blue; */
+    align-items: center;
 }
 
-#question, #answers{
+#question, #answers, #choices{
+    text-align: center;
+    font-family: var(--fontFamily);
+    margin: 5px 0;
+}
+
+#question{
+    font-size: 40px;
+    width: 50%;
+    /* border: 3px solid green; */
+}
+
+#choices{
+    width: 60%;
+    font-size: 23px;
+    /* border: 3px solid purple; */
     text-align: center;
 }
 
-#question {
-    margin: 50px 20% 0;
+#start{
+    font-family: var(--fontFamily);
+    font-size: 23px;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: blueviolet;
+    border-radius: 25px;
+    text-align: center;
+    width: 200px;
 }
 
-#answers{
-    margin: 0 20% 50px;
+#start:hover{
+    cursor:pointer;
 }
