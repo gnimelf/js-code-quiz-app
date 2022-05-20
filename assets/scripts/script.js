@@ -1,6 +1,6 @@
 // Setup Selectors
 var questionText = document.querySelector('#question')
-var answerText = document.querySelector('#answers')
+var choiceText = document.querySelector('#choices')
 var timer = document.querySelector("#time");
 var questionNumber = 0;
 var timer = 60;
@@ -113,5 +113,7 @@ var quizContent = {
 var question = quiz.results[questionNumber].question;
 var choices = quiz.results[questionNumber].answers;
 questionText.innerHTML = question;
-answerText.innerHTML = `<ul><li>${choices[0]}</li><li>${choices[1]}</li><li>${choices[2]}</li><li>${choices[3]}</li></ul>`
+choiceText.innerHTML = `<ul><li>${choices[0]}</li><li>${choices[1]}</li><li>${choices[2]}</li><li>${choices[3]}</li></ul>`
 console.log(questionNumber);
+
+choiceText.addEventListener("click", quizGame);
