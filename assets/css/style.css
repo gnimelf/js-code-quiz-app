@@ -1,0 +1,21 @@
+/* Header styling */
+:root {
+    --fontFamily: Arial, Helvetica, sans-serif;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--fontFamily);
+}
+
+#time, #scores{
+    margin: 30px 30px;
+}
+
+
+#game-content {
+    margin: 100px;
+    text-align: center;
+}
