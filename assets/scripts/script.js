@@ -110,10 +110,8 @@ var quizContent = {
 }
 
 // Game Setup
-var question = quiz.results[questionNumber].question;
-var choices = quiz.results[questionNumber].answers;
+var question = quizContent.results[questionNumber].question;
+var choices = quizContent.results[questionNumber].answers;
 questionText.innerHTML = question;
 choiceText.innerHTML = `<ul><li>${choices[0]}</li><li>${choices[1]}</li><li>${choices[2]}</li><li>${choices[3]}</li></ul>`
 console.log(questionNumber);
-
-choiceText.addEventListener("click", quizGame);

@@ -3,6 +3,17 @@
     --fontFamily: Arial, Helvetica, sans-serif;
 }
 
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+    margin: 2px;
+    border-radius: 25px;
+    background-color: coral; 
+}
+
 #header {
     display: flex;
     align-items: center;
