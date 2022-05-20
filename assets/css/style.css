@@ -5,13 +5,16 @@
 
 ul {
     padding: 0;
+    margin: 0 30%;
 }
 
 li {
     list-style: none;
-    margin: 2px;
+    text-align: center;
+    margin: 10px;
     border-radius: 25px;
     background-color: coral; 
+    padding: 5px 0;
 }
 
 #header {

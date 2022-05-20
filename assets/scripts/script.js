@@ -115,3 +115,23 @@ var choices = quizContent.results[questionNumber].answers;
 questionText.innerHTML = question;
 choiceText.innerHTML = `<ul><li>${choices[0]}</li><li>${choices[1]}</li><li>${choices[2]}</li><li>${choices[3]}</li></ul>`
 console.log(questionNumber);
+
+choiceText.addEventListener("click", quizGame);
+
+function quizGame(event) {
+   
+    // Store user choice
+
+    questionNumber++;
+    // Get next question and choices 
+    if (questionNumber < quizContent.results.length) {
+
+        question = quizContent.results[questionNumber].question;
+        answers = quizContent.results[questionNumber].answers;
+        questionText.innerHTML = question;
+        choiceText.innerHTML = `<ul><li>${answers[0]}</li><li>${answers[1]}</li><li>${answers[2]}</li><li>${answers[3]}</li></ul>`
+        console.log(event);
+        questionNumber++;
+    }
+
+}
