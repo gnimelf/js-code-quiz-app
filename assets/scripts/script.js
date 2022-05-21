@@ -1,12 +1,14 @@
 // Setup Selectors
-var questionEl = document.querySelector('#question')
-var choiceEl = document.querySelector('#choices')
-var startEl = document.querySelector('#start')
+var questionEl = document.querySelector('#question');
+var choiceEl = document.querySelector('#choices');
+var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
+var gameFeedback = document.querySelector("#feedback")
 var questionNumber = 0;
-var timer = 60;
+var timer = 75;
 var score = 0;
 var gameStarted = true;
+var localStore = localStorage;
 var quizContent = {
     "results": [
         {
@@ -114,6 +116,7 @@ var quizContent = {
 // Game Setup
 questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
 choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
+gameFeedback.setAttribute("style", "Display: none");
 console.log(questionNumber);
 
 // Event Listeners
@@ -128,6 +131,7 @@ function checkAnswer(event) {
     console.log(userChoice);
     if (correctAnswer === userChoice) {
         score++;
+
     }
     questionNumber++;
 
@@ -164,11 +168,14 @@ function startGame() {
             //   sendMessage();
             alert("Time is up!")
         } else if (questionNumber === quizContent.results.length) {
-
+            clearInterval(timerInterval);
+            alert("Game Over")
         }
-    }, 1000)
+    }, 1000);
 
     getNextQuestion();
 }
 
+function done() {
 
+}
