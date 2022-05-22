@@ -8,7 +8,6 @@ var questionNumber = 0;
 var timer = 75;
 var score = 0;
 var gameStarted = true;
-var localStore = localStorage;
 var quizContent = {
     "results": [
         {
@@ -131,7 +130,11 @@ function checkAnswer(event) {
     console.log(userChoice);
     if (correctAnswer === userChoice) {
         score++;
-
+        gameFeedback.setAttribute("style", "Display: inline");
+        gameFeedback.innerHTML = "Correct!"
+    } else {
+        gameFeedback.setAttribute("style", "Display: inline");
+        gameFeedback.innerHTML = "Wrong!"
     }
     questionNumber++;
 
@@ -139,17 +142,16 @@ function checkAnswer(event) {
 }
 
 function getNextQuestion() {
-
+    
     // Get question and choices 
     if (questionNumber < quizContent.results.length) {
         var question = quizContent.results[questionNumber].question;
         var question = quizContent.results[questionNumber].question;
         var answersList = quizContent.results[questionNumber].answers;
-        questionEl.innerHTML = question;
+        questionEl.innerHTML = `<h4>${question}</h4>`;
         choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
     } else {
-        timer = 0;
-        alert("Game Over");
+        gameover();
     }
 }
 
@@ -160,22 +162,25 @@ function startGame() {
     var timerInterval = setInterval(function () {
         timer--;
         timerEl.textContent = "Time: " + timer;
+        gameFeedback.setAttribute("style", "Display: none");
 
         if (timer === 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
-            // Calls function to enter score
-            //   sendMessage();
-            alert("Time is up!")
+    
+            gameover();
         } else if (questionNumber === quizContent.results.length) {
             clearInterval(timerInterval);
-            alert("Game Over")
+            gameover();
         }
     }, 1000);
 
     getNextQuestion();
 }
 
-function done() {
+function gameover() {
+    questionEl.innerHTML = `<h1>All Done!<h1>`;
+    choiceEl.innerHTML = `Your score is: ${score}`;
 
+    gameFeedback.setAttribute("style", "Display: none");
 }

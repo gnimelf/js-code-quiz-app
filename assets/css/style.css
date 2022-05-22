@@ -8,15 +8,25 @@ p{
     font-size: 20px;
 }
 
+h4 {
+    height: 50px;
+    padding: 5px;
+}
+
 ul {
+    display: flex;
     padding: 0;
-    margin: 0 30%;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
 }
 
 li {
     list-style: none;
     text-align: center;
     margin: 10px;
+    width: 300px;
     border-radius: 25px;
     background-color: coral; 
     padding: 5px 0;
@@ -43,23 +53,27 @@ li:hover{
     justify-content: center;
     /* border: 3px solid blue;              TESTING */
     align-items: center;
+    height: 100%;
 }
 
-#question, #answers, #choices{
+#question, #answers, #choices, #feedback{
     text-align: center;
     font-family: var(--fontFamily);
     margin: 5px 0;
 }
 
 #question{
-    font-size: 40px;
-    width: 50%;
+    font-size: 30px;
+    width: 60%;
+    margin: 15px 0 ;
+    height: 100%;
     /* border: 3px solid green;           TESTING */
 }
 
 #choices{
     width: 60%;
     font-size: 23px;
+    height: 100%;
     /* border: 3px solid purple;          TESTING */
     text-align: center;
 }
@@ -80,8 +94,10 @@ li:hover{
 }
 
 #feedback {
+    margin-top: 15px;
     border-top: 3px solid lightgray;
     color: lightgrey;
     font-size: 23px;
-    width: 30%;
+    width: 60%;
+    display: block;
 }
