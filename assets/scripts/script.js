@@ -3,11 +3,14 @@ var questionEl = document.querySelector('#question');
 var choiceEl = document.querySelector('#choices');
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
-var gameFeedback = document.querySelector("#feedback")
+var gameFeedback = document.querySelector("#feedback");
+var submitEl = document.querySelector("#initials")
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
 var gameStarted = true;
+var players = [];
+localStorage.getItem("highscores")
 var quizContent = {
     "results": [
         {
@@ -116,11 +119,13 @@ var quizContent = {
 questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
 choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
 gameFeedback.setAttribute("style", "Display: none");
+submitEl.setAttribute("style", "Display: none");
 console.log(questionNumber);
 
 // Event Listeners
 startEl.addEventListener("click", startGame);
 choiceEl.addEventListener("click", checkAnswer);
+submitEl.addEventListener("click", addScore)
 
 // Check user choice
 function checkAnswer(event) {
@@ -178,9 +183,12 @@ function startGame() {
     getNextQuestion();
 }
 
-function gameover() {
+function gameover(event) {   
     questionEl.innerHTML = `<h1>All Done!<h1>`;
     choiceEl.innerHTML = `Your score is: ${score}`;
-
+    submitEl.setAttribute("style", "Display: inline");
     gameFeedback.setAttribute("style", "Display: none");
+
 }
+
+

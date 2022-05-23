@@ -23,6 +23,7 @@ ul {
 }
 
 li {
+    font-family: var(--fontFamily);
     list-style: none;
     text-align: center;
     margin: 10px;
@@ -99,5 +100,23 @@ li:hover{
     color: lightgrey;
     font-size: 23px;
     width: 60%;
+    display: inline;
+}
+
+/* #initials form {
     display: block;
+} */
+
+#initials form button {
+    font-family: var(--fontFamily);
+    background-color: coral;
+    border: 0;
+    padding: 5px;
+    width: 100px;
+    border-radius: 25px;
+    display: inline;
+}
+
+#initials form label {
+    font-family: var(--fontFamily);
 }
