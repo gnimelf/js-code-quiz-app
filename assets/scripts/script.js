@@ -4,13 +4,12 @@ var choiceEl = document.querySelector('#choices');
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
 var gameFeedback = document.querySelector("#feedback");
-var submitEl = document.querySelector("#initials")
+var formEl = document.querySelector("#initials");
+var submitEl = document.querySelector("#submit");
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
-var gameStarted = true;
-var players = [];
-localStorage.getItem("highscores")
+var highscore = localStorage.getItem("highscores")
 var quizContent = {
     "results": [
         {
@@ -119,13 +118,13 @@ var quizContent = {
 questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
 choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
 gameFeedback.setAttribute("style", "Display: none");
-submitEl.setAttribute("style", "Display: none");
-console.log(questionNumber);
+formEl.setAttribute("style", "Display: none");
+// console.log(questionNumber);
 
 // Event Listeners
 startEl.addEventListener("click", startGame);
 choiceEl.addEventListener("click", checkAnswer);
-submitEl.addEventListener("click", addScore)
+submitEl.addEventListener("click", addScore);
 
 // Check user choice
 function checkAnswer(event) {
@@ -186,9 +185,39 @@ function startGame() {
 function gameover(event) {   
     questionEl.innerHTML = `<h1>All Done!<h1>`;
     choiceEl.innerHTML = `Your score is: ${score}`;
-    submitEl.setAttribute("style", "Display: inline");
+    formEl.setAttribute("style", "Display: inline");
     gameFeedback.setAttribute("style", "Display: none");
+}
+
+function addScore(event) {
+    event.preventDefault();
+
+    // Change heading
+    questionEl.innerHTML = `<h1>Highscores</h1>`;
+    var players = [];
+   
+    //get and parse highscores
+    highscore = JSON.parse(localStorage.getItem("highscores"));
+
+    //check if the highscore value is empty
+    if (highscore !== null) {
+        players = highscore;
+      }
+    
+    //Get value from input box
+    var value = document.getElementById("inputClass").value;
+
+    // push new entry to array
+    players.push(value + " - " + score);
+
+    // stringify array and add it to localstorage
+    localStorage.setItem("highscores", JSON.stringify(players));
+    
+
 
 }
 
+// display highscore elements
+function scoreboard() {
 
+}
