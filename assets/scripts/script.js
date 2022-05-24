@@ -6,6 +6,8 @@ var timerEl = document.querySelector("#time");
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
+var hightscoreEl = document.querySelector("#highscore");
+var players = [];
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
@@ -119,6 +121,7 @@ questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
 choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
 gameFeedback.setAttribute("style", "Display: none");
 formEl.setAttribute("style", "Display: none");
+hightscoreEl.setAttribute("style", "Display: none");
 // console.log(questionNumber);
 
 // Event Listeners
@@ -128,7 +131,7 @@ submitEl.addEventListener("click", addScore);
 
 // Check user choice
 function checkAnswer(event) {
-    console.log(event);
+    
     var correctAnswer = quizContent.results[questionNumber].correct_answer;
     var userChoice = event.target.innerHTML;
     console.log(userChoice);
@@ -143,6 +146,7 @@ function checkAnswer(event) {
     questionNumber++;
 
     getNextQuestion();
+    return;
 }
 
 function getNextQuestion() {
@@ -155,8 +159,9 @@ function getNextQuestion() {
         questionEl.innerHTML = `<h4>${question}</h4>`;
         choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
     } else {
-        gameover();
+        gameOver();
     }
+    return;
 }
 
 function startGame() {
@@ -172,21 +177,25 @@ function startGame() {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
     
-            gameover();
+            gameOver();
+
         } else if (questionNumber === quizContent.results.length) {
             clearInterval(timerInterval);
-            gameover();
+
+            gameOver();
         }
     }, 1000);
 
     getNextQuestion();
+    return;
 }
 
-function gameover(event) {   
+function gameOver(event) {   
     questionEl.innerHTML = `<h1>All Done!<h1>`;
     choiceEl.innerHTML = `Your score is: ${score}`;
     formEl.setAttribute("style", "Display: inline");
     gameFeedback.setAttribute("style", "Display: none");
+    return;
 }
 
 function addScore(event) {
@@ -194,7 +203,7 @@ function addScore(event) {
 
     // Change heading
     questionEl.innerHTML = `<h1>Highscores</h1>`;
-    var players = [];
+    
    
     //get and parse highscores
     highscore = JSON.parse(localStorage.getItem("highscores"));
@@ -212,12 +221,25 @@ function addScore(event) {
 
     // stringify array and add it to localstorage
     localStorage.setItem("highscores", JSON.stringify(players));
-    
-
-
+    scoreBoard();
+    return;
 }
 
 // display highscore elements
-function scoreboard() {
+function scoreBoard() {
+    clearBoard();
+    hightscoreEl.setAttribute("style", "Display: block");
+    hightscoreEl.innerHTML = `<ul></ul>`;
+    var scoreList = document.querySelector("#highscore ul");
+    for (let i = 0; i < players.length; i++) {
+        var li = document.createElement('li');
+        li.innerHTML = `${players[i]}`
+        scoreList.append(li);
+    }
+}
 
+function clearBoard() {
+    formEl.setAttribute("style", "Display: none");
+    gameFeedback.setAttribute("style", "Display: none");
+    submitEl.setAttribute("style", "Display: none");
 }
