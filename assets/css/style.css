@@ -33,7 +33,7 @@ li {
     padding: 5px 0;
 }
 
-li:hover{
+li, #view-scores:hover{
     cursor:pointer;
 }
 

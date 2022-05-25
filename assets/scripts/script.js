@@ -4,7 +4,8 @@ var choiceEl = document.querySelector('#choices');
 var navigationEl = document.querySelector("#navigation");
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
-var viewScoresEl = document.querySelector("#view-score")
+var viewScoresEl = document.querySelector("#view-scores");
+viewScoresEl.addEventListener("click", populateScores);
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
@@ -127,8 +128,7 @@ function gameSetup() {
     choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
     startEl.setAttribute("style", "Display: block");
     startEl.addEventListener("click", startGame);
-    viewScoresEl.addEventListener("click", addScore);
-    // console.log(questionNumber);  
+    
 }
 
 // Check user choice
@@ -222,24 +222,31 @@ function addScore(event) {
   
     event.preventDefault();
 
-    //check if the localstorage is empty
-    if (highscoreStore !== "") {
-        highscoreStore = JSON.parse(localStorage.getItem("highscores"));
-        playersScores = highscoreStore;
-    } 
-    
-    //Get value from input box
-    var value = document.getElementById("inputClass").value;
-    if (value !== ""){
-            // push new entry to array
-    playersScores.push(value + " - " + score);
-    console.log(playersScores);
-    // stringify array and add it to localstorage
-    localStorage.setItem("highscores", JSON.stringify(playersScores));
-    scoreBoard();
-    }
+    populateScores();
+
     return;
 
+}
+
+function populateScores(){
+        //check if the localstorage is empty
+        if (highscoreStore !== "") {
+            highscoreStore = JSON.parse(localStorage.getItem("highscores"));
+            playersScores = highscoreStore;
+        } 
+        
+        //Get value from input box
+        var value = document.getElementById("inputClass").value;
+        if (value !== ""){
+                // push new entry to array
+        playersScores.push(value + " - " + score);
+        console.log(playersScores);
+        // stringify array and add it to localstorage
+        localStorage.setItem("highscores", JSON.stringify(playersScores));
+        
+        }
+        scoreBoard();
+        return;
 }
 
 // display highscore elements
