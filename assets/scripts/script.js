@@ -5,7 +5,7 @@ var navigationEl = document.querySelector("#navigation");
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
 var viewScoresEl = document.querySelector("#view-scores");
-viewScoresEl.addEventListener("click", populateScores);
+viewScoresEl.addEventListener("click", addScore);
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
@@ -73,38 +73,44 @@ var quizContent = {
 
 // Game Setup
 function gameSetup() {
+    // clear elements
     clearBoard();
+
+    // Setup Elements
     questionEl.setAttribute('style', "Display: block")
     questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
     choiceEl.setAttribute('style', "Display: block");
     choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
     startEl.setAttribute("style", "Display: block");
     startEl.addEventListener("click", startGame);
-    
 }
 
-// Check user choice
+// Check user selection
 function checkAnswer(event) {
     var correctAnswer = quizContent.results[questionNumber].correct_answer;
     var userChoice = event.target.innerHTML;
     console.log(userChoice);
     if (correctAnswer === userChoice) {
-        score++;
+        // score++;
         gameFeedback.setAttribute("style", "Display: inline");
         gameFeedback.innerHTML = "Correct!";
     } else {
         gameFeedback.setAttribute("style", "Display: inline");
         gameFeedback.innerHTML = "Wrong!";
+        timer -= 10;
     }
     questionNumber++;
-
+    
     getNextQuestion();
     return;
 }
 
 // Start Game
 function startGame() {
+    // Reset elements
     clearBoard();
+
+    // Setup elements 
     highScoreEl.addEventListener("click", scoreBoard);
     questionEl.setAttribute('style', "Display: block")
     questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
@@ -115,7 +121,7 @@ function startGame() {
         timerEl.textContent = "Time: " + timer;
         gameFeedback.setAttribute("style", "Display: none");
 
-        if (timer === 0) {
+        if (timer <= 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
     
@@ -165,40 +171,40 @@ function gameOver() {
 
     // Populate content
     questionEl.innerHTML = `<h1>All Done!<h1>`;
-    choiceEl.innerHTML = `Your score is: ${score}`;
+    choiceEl.innerHTML = `Your score is: ${timer}`;
     return;
 }
 
 // Grab scores from local storage
 function addScore(event) {
-  
-    event.preventDefault();
 
-    populateScores();
-
-    return;
-
-}
-
-function populateScores(){
-        //check if the localstorage is empty
-        if (highscoreStore !== "") {
-            highscoreStore = JSON.parse(localStorage.getItem("highscores"));
-            playersScores = highscoreStore;
-        } 
-        
-        //Get value from input box
-        var value = document.getElementById("inputClass").value;
-        if (value !== ""){
+    event.preventDefault();  
+    
+    //Get value from input box
+    var value = document.getElementById("inputClass").value;
+    
+    if (event.target === "viewScoresEl") {
+        value = null;
+    }
+    
+    //check if the localstorage is empty
+    if (highscoreStore !== "") {
+        highscoreStore = JSON.parse(localStorage.getItem("highscores"));
+        playersScores = highscoreStore;
+    } 
+    
+    if (value !== ""){
                 // push new entry to array
-        playersScores.push(value + " - " + score);
+        playersScores.push(value + " - " + timer);
         console.log(playersScores);
         // stringify array and add it to localstorage
         localStorage.setItem("highscores", JSON.stringify(playersScores));
-        
-        }
-        scoreBoard();
-        return;
+    
+    }
+    scoreBoard();
+
+    return;
+
 }
 
 // display highscore elements
@@ -259,4 +265,5 @@ function clearLocalStore() {
     return;
 }
 
+// Run game
 gameSetup();
