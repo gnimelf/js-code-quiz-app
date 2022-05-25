@@ -1,13 +1,15 @@
 // Setup Selectors
 var questionEl = document.querySelector('#question');
 var choiceEl = document.querySelector('#choices');
+var navigationEl = document.querySelector("#navigation");
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
+var viewScoresEl = document.querySelector("#view-score")
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
-var highscoreEl = document.querySelector("#highscore");
-var players = [];
+var highScoreEl = document.querySelector("#highscore");
+var playersScores = [];
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
@@ -116,34 +118,31 @@ var quizContent = {
     ]
 }
 
-// Event Listeners
-startEl.addEventListener("click", startGame);
-choiceEl.addEventListener("click", checkAnswer);
-submitEl.addEventListener("click", addScore);
-
 // Game Setup
 function gameSetup() {
+    clearBoard();
+    questionEl.setAttribute('style', "Display: block")
     questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
+    choiceEl.setAttribute('style', "Display: block");
     choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
-    gameFeedback.setAttribute("style", "Display: none");
-    formEl.setAttribute("style", "Display: none");
-    highscoreEl.setAttribute("style", "Display: none");
+    startEl.setAttribute("style", "Display: block");
+    startEl.addEventListener("click", startGame);
+    viewScoresEl.addEventListener("click", addScore);
     // console.log(questionNumber);  
 }
 
 // Check user choice
 function checkAnswer(event) {
-    
     var correctAnswer = quizContent.results[questionNumber].correct_answer;
     var userChoice = event.target.innerHTML;
     console.log(userChoice);
     if (correctAnswer === userChoice) {
         score++;
         gameFeedback.setAttribute("style", "Display: inline");
-        gameFeedback.innerHTML = "Correct!"
+        gameFeedback.innerHTML = "Correct!";
     } else {
         gameFeedback.setAttribute("style", "Display: inline");
-        gameFeedback.innerHTML = "Wrong!"
+        gameFeedback.innerHTML = "Wrong!";
     }
     questionNumber++;
 
@@ -153,9 +152,12 @@ function checkAnswer(event) {
 
 // Start Game
 function startGame() {
-    // Change display
-    startEl.setAttribute('style', "Display: None")
-
+    clearBoard();
+    highScoreEl.addEventListener("click", scoreBoard);
+    questionEl.setAttribute('style', "Display: block")
+    questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
+    choiceEl.setAttribute('style', "Display: block");
+    choiceEl.addEventListener("click", checkAnswer);
     var timerInterval = setInterval(function () {
         timer--;
         timerEl.textContent = "Time: " + timer;
@@ -195,60 +197,107 @@ function getNextQuestion() {
 }
 
 // Display game over
-function gameOver(event) {   
+function gameOver() {
+
+    // Hide elements
+    clearBoard();
+
+    // Display elements
+    formEl.setAttribute("style", "Display: inline");
+    submitEl.setAttribute("style", "Display: inline");  
+    questionEl.setAttribute("style", "Display: block");
+    choiceEl.setAttribute("style", "Display: Block");
+
+    // Button
+    submitEl.addEventListener("click", addScore);
+
+    // Populate content
     questionEl.innerHTML = `<h1>All Done!<h1>`;
     choiceEl.innerHTML = `Your score is: ${score}`;
-    formEl.setAttribute("style", "Display: inline");
-    gameFeedback.setAttribute("style", "Display: none");
     return;
 }
 
-// Grab scores from localstorage
+// Grab scores from local storage
 function addScore(event) {
+  
     event.preventDefault();
 
-    // Change heading
-    questionEl.innerHTML = `<h1>Highscores</h1>`;
-    
-    //get and parse highscores
-    highscoreStore = JSON.parse(localStorage.getItem("highscores"));
-
-    //check if the highscore value is empty
-    if (highscoreStore !== null) {
-        players = highscoreStore;
-      }
+    //check if the localstorage is empty
+    if (highscoreStore !== "") {
+        highscoreStore = JSON.parse(localStorage.getItem("highscores"));
+        playersScores = highscoreStore;
+    } 
     
     //Get value from input box
     var value = document.getElementById("inputClass").value;
-
-    // push new entry to array
-    players.push(value + " - " + score);
-
+    if (value !== ""){
+            // push new entry to array
+    playersScores.push(value + " - " + score);
+    console.log(playersScores);
     // stringify array and add it to localstorage
-    localStorage.setItem("highscores", JSON.stringify(players));
+    localStorage.setItem("highscores", JSON.stringify(playersScores));
     scoreBoard();
+    }
     return;
+
 }
 
 // display highscore elements
 function scoreBoard() {
+
+    // Clear Screen
     clearBoard();
-    highscoreEl.setAttribute("style", "Display: block");
     
-    highscoreEl.innerHTML = `<<ul></ul>`;
+    // Show Elements
+    questionEl.setAttribute("style", "Display: block");
+    navigationEl.setAttribute("style", "Display: none");
+    highScoreEl.setAttribute("style", "Display: block");
+    navigationEl.setAttribute("style", "Display: block");
+    
+    // Populate text content
+    questionEl.innerHTML = `<h1>High Scores</h1>`;
+    navigationEl.innerHTML = `<button id="go-back" type="submit" onclick="window.location.reload()"> Go Back </button> <button id="clear-score"> Clear Scores </button>`;
+
+    // Vars
+    var clearScore = document.querySelector("#clear-score");
+
+
+    // Events
+    clearScore.addEventListener("click", clearLocalStore);
+
+    // Create score list
+    highScoreEl.innerHTML = `<ul></ul>`;
     var scoreList = document.querySelector("#highscore ul");
-    for (let i = 0; i < players.length; i++) {
+    for (let i = playersScores.length - 1; i >= 0; i--) {
         var li = document.createElement('li');
-        li.innerHTML = `${players[i]}`
+        li.id ="score-item";
+        li.innerHTML = `${playersScores[i]}`;
         scoreList.append(li);
     }
+    return;
 }
 
 // Clear screen
 function clearBoard() {
+    questionEl.setAttribute("style", "Display:none");
+    choiceEl.setAttribute("style", "Display: none");
     formEl.setAttribute("style", "Display: none");
     gameFeedback.setAttribute("style", "Display: none");
     submitEl.setAttribute("style", "Display: none");
+    gameFeedback.setAttribute("style", "Display: none");
+    formEl.setAttribute("style", "Display: none");
+    highScoreEl.setAttribute("style", "Display: none");
+    startEl.setAttribute("style", "Display: none");
+    navigationEl.setAttribute("style", "Display: none");
+
+}
+
+// Clear Local Storage
+function clearLocalStore() {
+    localStorage.setItem("highscores", "");
+    playersScores = [];
+    scoreBoard();
+    return;
 }
 
 gameSetup();

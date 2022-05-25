@@ -42,10 +42,12 @@ li:hover{
     align-items: center;
     justify-content: space-between;
     font-family: var(--fontFamily);
+    margin: 30px 0;
 }
 
-#time, #scores{
-    margin: 30px 30px;
+#time, #view-scores{
+    display: inline;
+    margin: 0 30px;
 }
 
 #quiz-container {
@@ -103,11 +105,19 @@ li:hover{
     display: inline;
 }
 
+#go-back, #clear-score{
+margin: 0 46px;
+}
+
+#score-item {
+    border-radius: 0;
+    background-color: lightblue; 
+}
 /* #initials form {
     display: block;
 } */
 
-#initials form button {
+#initials form button, #go-back, #clear-score {
     font-family: var(--fontFamily);
     background-color: coral;
     border: 0;
