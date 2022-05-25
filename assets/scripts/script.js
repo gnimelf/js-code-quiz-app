@@ -6,12 +6,12 @@ var timerEl = document.querySelector("#time");
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
-var hightscoreEl = document.querySelector("#highscore");
+var highscoreEl = document.querySelector("#highscore");
 var players = [];
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
-var highscore = localStorage.getItem("highscores")
+var highscoreStore = localStorage.getItem("highscores")
 var quizContent = {
     "results": [
         {
@@ -116,18 +116,20 @@ var quizContent = {
     ]
 }
 
-// Game Setup
-questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
-choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
-gameFeedback.setAttribute("style", "Display: none");
-formEl.setAttribute("style", "Display: none");
-hightscoreEl.setAttribute("style", "Display: none");
-// console.log(questionNumber);
-
 // Event Listeners
 startEl.addEventListener("click", startGame);
 choiceEl.addEventListener("click", checkAnswer);
 submitEl.addEventListener("click", addScore);
+
+// Game Setup
+function gameSetup() {
+    questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
+    choiceEl.innerHTML = "Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds."
+    gameFeedback.setAttribute("style", "Display: none");
+    formEl.setAttribute("style", "Display: none");
+    highscoreEl.setAttribute("style", "Display: none");
+    // console.log(questionNumber);  
+}
 
 // Check user choice
 function checkAnswer(event) {
@@ -149,21 +151,7 @@ function checkAnswer(event) {
     return;
 }
 
-function getNextQuestion() {
-    
-    // Get question and choices 
-    if (questionNumber < quizContent.results.length) {
-        var question = quizContent.results[questionNumber].question;
-        var question = quizContent.results[questionNumber].question;
-        var answersList = quizContent.results[questionNumber].answers;
-        questionEl.innerHTML = `<h4>${question}</h4>`;
-        choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
-    } else {
-        gameOver();
-    }
-    return;
-}
-
+// Start Game
 function startGame() {
     // Change display
     startEl.setAttribute('style', "Display: None")
@@ -190,6 +178,23 @@ function startGame() {
     return;
 }
 
+// Display next question
+function getNextQuestion() {
+    
+    // Get question and choices 
+    if (questionNumber < quizContent.results.length) {
+        var question = quizContent.results[questionNumber].question;
+        var question = quizContent.results[questionNumber].question;
+        var answersList = quizContent.results[questionNumber].answers;
+        questionEl.innerHTML = `<h4>${question}</h4>`;
+        choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
+    } else {
+        gameOver();
+    }
+    return;
+}
+
+// Display game over
 function gameOver(event) {   
     questionEl.innerHTML = `<h1>All Done!<h1>`;
     choiceEl.innerHTML = `Your score is: ${score}`;
@@ -198,19 +203,19 @@ function gameOver(event) {
     return;
 }
 
+// Grab scores from localstorage
 function addScore(event) {
     event.preventDefault();
 
     // Change heading
     questionEl.innerHTML = `<h1>Highscores</h1>`;
     
-   
     //get and parse highscores
-    highscore = JSON.parse(localStorage.getItem("highscores"));
+    highscoreStore = JSON.parse(localStorage.getItem("highscores"));
 
     //check if the highscore value is empty
-    if (highscore !== null) {
-        players = highscore;
+    if (highscoreStore !== null) {
+        players = highscoreStore;
       }
     
     //Get value from input box
@@ -228,8 +233,9 @@ function addScore(event) {
 // display highscore elements
 function scoreBoard() {
     clearBoard();
-    hightscoreEl.setAttribute("style", "Display: block");
-    hightscoreEl.innerHTML = `<ul></ul>`;
+    highscoreEl.setAttribute("style", "Display: block");
+    
+    highscoreEl.innerHTML = `<<ul></ul>`;
     var scoreList = document.querySelector("#highscore ul");
     for (let i = 0; i < players.length; i++) {
         var li = document.createElement('li');
@@ -238,8 +244,11 @@ function scoreBoard() {
     }
 }
 
+// Clear screen
 function clearBoard() {
     formEl.setAttribute("style", "Display: none");
     gameFeedback.setAttribute("style", "Display: none");
     submitEl.setAttribute("style", "Display: none");
 }
+
+gameSetup();
