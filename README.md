@@ -5,13 +5,15 @@ A Quiz Web App developed using HTML, CSS, and Javascript. I created this project
 
 ## Usage
 
+Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.
 
+![app screenshot](./assets/images/screenshot.png)
 
 ## Credits
 
-[![Open Trivia Db](https://opentdb.com/images/logo-banner.png)](https://opentdb.com/) - provide the questions and answers
+I take credit for designing and developing this web app.
 
 ## License
 
-The last section of a high-quality README file is the license. This lets other developers know what they can and cannot do with your project. If you need help choosing a license, refer to [https://choosealicense.com/](https://choosealicense.com/).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
