@@ -5,7 +5,6 @@ var navigationEl = document.querySelector("#navigation");
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
 var viewScoresEl = document.querySelector("#view-scores");
-viewScoresEl.addEventListener("click", scoreBoard);
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
@@ -15,6 +14,11 @@ var questionNumber = 0;
 var timer = 75;
 var score = 0;
 var highscoreStore = localStorage.getItem("highscores");
+
+//Event listeners
+viewScoresEl.addEventListener("click", scoreBoard);
+
+// Question base
 var quizContent = {
     "results": [
         {
@@ -70,6 +74,7 @@ var quizContent = {
         }
     ]
 };
+
 
 // Game Setup
 function gameSetup() {
@@ -151,7 +156,13 @@ function getNextQuestion() {
         var question = quizContent.results[questionNumber].question;
         var answersList = quizContent.results[questionNumber].answers;
         questionEl.innerHTML = `<h4>${question}</h4>`;
-        choiceEl.innerHTML = `<ul><li>${answersList[0]}</li><li>${answersList[1]}</li><li>${answersList[2]}</li><li>${answersList[3]}</li></ul>`
+        choiceEl.innerHTML = `
+        <ul>
+            <li>${answersList[0]}</li>
+            <li>${answersList[1]}</li>
+            <li>${answersList[2]}</li>
+            <li>${answersList[3]}</li>
+        </ul>`
     } else {
         gameOver();
     }
@@ -172,7 +183,7 @@ function gameOver() {
     choiceEl.setAttribute("style", "Display: Block");
 
     // Button
-    submitEl.addEventListener("click", addScore);
+    submitEl.addEventListener("submit", addScore);
 
     // Populate content
     questionEl.innerHTML = `<h1>All Done!<h1>`;
@@ -184,22 +195,21 @@ function gameOver() {
 // Grab scores from local storage
 function addScore(event) {
 
-    event.preventDefault();  
-    
-    var value = document.getElementById("inputClass").value;
+    event.preventDefault();
+
+    var value = event.target[0].value;
     
     //check if the localstorage is empty
-    if (highscoreStore != '' && value != null ) {
-        highscoreStore = JSON.parse(localStorage.getItem("highscores"));
-        playersScores = highscoreStore;
+    if (highscoreStore && value ) {
+        playersScores = JSON.parse(localStorage.getItem("highscores"));
         // push new entry to array
-        playersScores.push(value + " - " + timer);
-        console.log(playersScores);  
-    } else if (highscoreStore == ''){
+        playersScores.push(value + " - " + timer);  
+    } else if (!highscoreStore){
         playersScores.push(value + " - " + timer);
     } 
 
     localStorage.setItem("highscores", JSON.stringify(playersScores));
+    event.target[0].value = '';
 
     scoreBoard();
 
@@ -224,9 +234,15 @@ function scoreBoard() {
     
     // Populate text content
     questionEl.innerHTML = `<h1>High Scores</h1>`;
-    navigationEl.innerHTML = `<button id="go-back" type="submit" onclick="window.location.reload()"> Go Back </button> <button id="clear-score"> Clear Scores </button>`;
+    navigationEl.innerHTML = `
+        <button id="go-back" type="submit" onclick="window.location.reload()">
+            Go Back 
+        </button> 
+        <button id="clear-score">
+            Clear Scores 
+        </button>`;
 
-    // Vars
+    // Selector
     var clearScore = document.querySelector("#clear-score");
 
     // Events
@@ -236,6 +252,10 @@ function scoreBoard() {
     highScoreEl.innerHTML = `<ul></ul>`;
     var scoreList = document.querySelector("#highscore ul");
     playersScores = JSON.parse(localStorage.getItem("highscores"));
+    // Put highest score at the top
+    playersScores.sort(function(a,b){
+        return a.split(" - ")[0] - b.split(' - ')[0];
+    });
     for (let i = playersScores.length - 1; i >= 0; i--) {
         var li = document.createElement('li');
         li.id ="score-item";
