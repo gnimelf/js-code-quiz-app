@@ -7,7 +7,7 @@ A Quiz Web App developed using HTML, CSS, and Javascript. I created this project
 
 Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds.
 
-![app screenshot](./assets/images/screenshot.png)
+[![app screenshot](./assets/images/screenshot.png)](https://gnimelf.github.io/js-code-quiz-app/)
 
 ## Credits
 
