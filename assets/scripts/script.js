@@ -115,7 +115,10 @@ function startGame() {
     questionEl.setAttribute('style', "Display: block")
     questionEl.innerHTML = `<h1>Coding Quiz Challenge<h1>`;
     choiceEl.setAttribute('style', "Display: block");
+
+    // Event listener for user selection
     choiceEl.addEventListener("click", checkAnswer);
+    
     var timerInterval = setInterval(function () {
         timer--;
         timerEl.textContent = "Time: " + timer;
@@ -143,7 +146,6 @@ function getNextQuestion() {
     
     // Get question and choices 
     if (questionNumber < quizContent.results.length) {
-        var question = quizContent.results[questionNumber].question;
         var question = quizContent.results[questionNumber].question;
         var answersList = quizContent.results[questionNumber].answers;
         questionEl.innerHTML = `<h4>${question}</h4>`;
