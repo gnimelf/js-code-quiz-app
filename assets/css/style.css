@@ -37,6 +37,14 @@ li, #view-scores:hover{
     cursor:pointer;
 }
 
+.even-line{
+    background-color: lightblue;
+}
+
+.odd-line{
+    background-color: lightskyblue;
+}
+
 #header {
     display: flex;
     align-items: center;
@@ -111,7 +119,8 @@ margin: 0 46px;
 
 #score-item {
     border-radius: 0;
-    background-color: lightblue; 
+    padding: 2px 20px;
+    text-align: left;
 }
 /* #initials form {
     display: block;

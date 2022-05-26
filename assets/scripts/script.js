@@ -203,9 +203,9 @@ function addScore(event) {
     if (highscoreStore && value ) {
         playersScores = JSON.parse(localStorage.getItem("highscores"));
         // push new entry to array
-        playersScores.push(value + " - " + timer);  
+        playersScores.push(timer + " - " + value);  
     } else if (!highscoreStore){
-        playersScores.push(value + " - " + timer);
+        playersScores.push(timer + " - " + value );
     } 
 
     localStorage.setItem("highscores", JSON.stringify(playersScores));
@@ -248,20 +248,29 @@ function scoreBoard() {
     // Events
     clearScore.addEventListener("click", clearLocalStore);
 
-    // Create score list
-    highScoreEl.innerHTML = `<ul></ul>`;
-    var scoreList = document.querySelector("#highscore ul");
-    playersScores = JSON.parse(localStorage.getItem("highscores"));
-    // Put highest score at the top
-    playersScores.sort(function(a,b){
-        return a.split(" - ")[0] - b.split(' - ')[0];
-    });
-    for (let i = playersScores.length - 1; i >= 0; i--) {
-        var li = document.createElement('li');
-        li.id ="score-item";
-        li.innerHTML = `${playersScores[i]}`;
-        scoreList.append(li);
+    if (localStorage.getItem("highscores") !== null) {
+        // Create score list
+        highScoreEl.innerHTML = `<ul></ul>`;
+        var scoreList = document.querySelector("#highscore ul");
+        playersScores = JSON.parse(localStorage.getItem("highscores"));
+        // Put highest score at the top
+        playersScores.sort(function(a,b){
+            return a.split(" - ")[0] - b.split(' - ')[0];
+        });
+        for (let i = playersScores.length - 1; i >= 0; i--) {
+            var li = document.createElement('li');
+            li.id ="score-item";
+            if (i%2===0){
+                li.className="even-line";
+            } else {
+                li.className="odd-line";
+            }
+                
+            li.innerHTML = `${playersScores[i]}`;
+            scoreList.append(li);
+        }
     }
+
     return;
 }
 
