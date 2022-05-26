@@ -214,6 +214,8 @@ function scoreBoard() {
     clearBoard();
     
     // Show Elements
+    viewScoresEl.setAttribute("style", "Display: none");
+    timerEl.setAttribute("style", "Display: none");
     questionEl.setAttribute("style", "Display: block");
     navigationEl.setAttribute("style", "Display: none");
     highScoreEl.setAttribute("style", "Display: block");
