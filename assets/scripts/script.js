@@ -192,9 +192,9 @@ function addScore(event) {
         highscoreStore = JSON.parse(localStorage.getItem("highscores"));
         playersScores = highscoreStore;
     } 
-    
+    // Checking
     if (value !== ""){
-                // push new entry to array
+        // push new entry to array
         playersScores.push(value + " - " + timer);
         console.log(playersScores);
         // stringify array and add it to localstorage
