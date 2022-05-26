@@ -5,12 +5,12 @@ var navigationEl = document.querySelector("#navigation");
 var startEl = document.querySelector('#start');
 var timerEl = document.querySelector("#time");
 var viewScoresEl = document.querySelector("#view-scores");
-viewScoresEl.addEventListener("click", addScore);
+viewScoresEl.addEventListener("click", scoreBoard);
 var gameFeedback = document.querySelector("#feedback");
 var formEl = document.querySelector("#initials");
 var submitEl = document.querySelector("#submit");
 var highScoreEl = document.querySelector("#highscore");
-var playersScores = [];
+var playersScores = new Array;
 var questionNumber = 0;
 var timer = 75;
 var score = 0;
@@ -85,11 +85,11 @@ function gameSetup() {
     startEl.addEventListener("click", startGame);
 }
 
+
 // Check user selection
 function checkAnswer(event) {
     var correctAnswer = quizContent.results[questionNumber].correct_answer;
     var userChoice = event.target.innerHTML;
-    console.log(userChoice);
     if (correctAnswer === userChoice) {
         // score++;
         gameFeedback.setAttribute("style", "Display: inline");
@@ -104,6 +104,7 @@ function checkAnswer(event) {
     getNextQuestion();
     return;
 }
+
 
 // Start Game
 function startGame() {
@@ -141,6 +142,7 @@ function startGame() {
     return;
 }
 
+
 // Display next question
 function getNextQuestion() {
     
@@ -155,6 +157,7 @@ function getNextQuestion() {
     }
     return;
 }
+
 
 // Display game over
 function gameOver() {
@@ -177,37 +180,33 @@ function gameOver() {
     return;
 }
 
+
 // Grab scores from local storage
 function addScore(event) {
 
     event.preventDefault();  
     
-    //Get value from input box
     var value = document.getElementById("inputClass").value;
     
-    if (event.target === "viewScoresEl") {
-        value = null;
-    }
-    
     //check if the localstorage is empty
-    if (highscoreStore !== "") {
+    if (highscoreStore != '' && value != null ) {
         highscoreStore = JSON.parse(localStorage.getItem("highscores"));
         playersScores = highscoreStore;
-    } 
-    // Checking
-    if (value !== ""){
         // push new entry to array
         playersScores.push(value + " - " + timer);
-        console.log(playersScores);
-        // stringify array and add it to localstorage
-        localStorage.setItem("highscores", JSON.stringify(playersScores));
-    
-    }
+        console.log(playersScores);  
+    } else if (highscoreStore == ''){
+        playersScores.push(value + " - " + timer);
+    } 
+
+    localStorage.setItem("highscores", JSON.stringify(playersScores));
+
     scoreBoard();
 
     return;
 
 }
+
 
 // display highscore elements
 function scoreBoard() {
@@ -230,13 +229,13 @@ function scoreBoard() {
     // Vars
     var clearScore = document.querySelector("#clear-score");
 
-
     // Events
     clearScore.addEventListener("click", clearLocalStore);
 
     // Create score list
     highScoreEl.innerHTML = `<ul></ul>`;
     var scoreList = document.querySelector("#highscore ul");
+    playersScores = JSON.parse(localStorage.getItem("highscores"));
     for (let i = playersScores.length - 1; i >= 0; i--) {
         var li = document.createElement('li');
         li.id ="score-item";
@@ -245,6 +244,7 @@ function scoreBoard() {
     }
     return;
 }
+
 
 // Clear screen
 function clearBoard() {
@@ -261,13 +261,15 @@ function clearBoard() {
 
 }
 
+
 // Clear Local Storage
 function clearLocalStore() {
     localStorage.setItem("highscores", "");
-    playersScores = [];
+    playersScores = new Array;
     scoreBoard();
     return;
 }
+
 
 // Run game
 gameSetup();
